@@ -1,6 +1,6 @@
-## A more effective way to organise Redux action creator codes.
+# A more effective way to organise Redux action creator codes.
 
-### Motivation:
+## Motivation:
 
 This is a handy helper function to allow react redux projects to work more effectively with redux actions. This is inspired by Flux Standard Action and Key Mirror. It’s designed for people:
 
@@ -15,25 +15,37 @@ This is a handy helper function to allow react redux projects to work more effec
 >- And (most importantly) who want to use the Auto-Completing feature in IDEs.
 
 
-### Install 
+## Install 
 
 npm install --save action-creator-mirror
 
-### Example:
 
-contactAction.js:
+## Example:
+
+### contactAction.js:
 ```
-import actionCreatorMirror from '../common/actionCreatorMirror';
+import actionCreatorMirror from 'action-creator-mirror';
 
 var contactActions = {
-    FETCH_CONTACTS: function (offset = 0) {
+    FETCH_CONTACTS: function (endPoint, offset = 0) {
         return async (dispatch) => {
-            ...Some async calls return the result
-           dispatch(contactActions.FETCH_CONTACT_SUCCESS(result));
+           //dispatch an action to trigger a preloader indicator
+           dispatch(contactsActions.FETCH_CONTACT_PENDING());
+
+           ...Some async calls return the result,like:
+           await result = api.fetch(endPoint, offset);
+           
+           //dispatch an action to reduce the fetch result
+           dispatch(contactActions.FETCH_CONTACT_DONE(result));
         }
     },
-    FETCH_CONTACT_SUCCESS: function (result) {
+
+    //This just needs to be an empty function.
+    FETCH_CONTACT_PENDING: function() {},
+ 
+    FETCH_CONTACT_DONE: function (result) {
         return {
+            //Don't need to write type of a flux standard action
             payload: result
         }
     },
@@ -45,13 +57,16 @@ var contactActions = actionCreatorMirror(contactActions);
 export default contactActions;
 ```
 
-contactReducer.js:
+### contactReducer.js:
 ```
 import contactActions from '../actions/contactActions';
 export const contact = (state = {}, action) => {
     switch (action.type) {
-        case contactActions.FETCH_CONTACT_SUCCESS.name:  //Note the ‘.name’ 
-                   return action.payload;
+        case contactsActions.FETCH_CONTACT_PENDING:
+        ...
+
+        case contactActions.FETCH_CONTACT_DONE.name:  //Note the ‘.name’ 
+            return action.payload;
         ...
         
         default:
@@ -60,12 +75,13 @@ export const contact = (state = {}, action) => {
 };
 ```
 
-contactContainer.js
+### contactContainer.js
 ```
 import contactActions from '../actions/contactActions';
 ...
 export default connect(mapStateToProps, {
-    fetchContact:   contactActions.FETCH_CONTACT,
-
+    fetchContactPending: contactActions.FETCH_CONTACT_PENDING,
+    fetchContact:        contactActions.FETCH_CONTACT,
+    fetchContactDone:    contactActions.FETCH_CONTACT_DONE
 })(ContactContainer);
 ```
