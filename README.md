@@ -18,12 +18,12 @@ This is a handy helper function to allow react redux projects to work more effec
 ## Install 
 ```
 npm install --save action-creator-mirror
-
+```
 or
 
 ```
 yarn add action-creator-mirror
-
+```
 
 ## Example:
 
