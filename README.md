@@ -15,6 +15,10 @@ This is a handy helper function to allow react redux projects to work more effec
 >- And (most importantly) who want to use the Auto-Completing feature in IDEs.
 
 
+### Install 
+
+npm install --save action-creator-mirror
+
 ### Example:
 
 contactAction.js:
