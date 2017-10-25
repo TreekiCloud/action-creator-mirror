@@ -15,7 +15,7 @@ This is a handy helper function to allow react redux projects to work more effec
 >- And (most importantly) who want to use the Auto-Completing feature in IDEs.
 
 
-## Install 
+## Install
 ```
 npm install --save action-creator-mirror
 ```
@@ -39,7 +39,7 @@ var contactActions = {
 
            ...Some async calls return the result,like:
            await result = api.fetch(endPoint, offset);
-           
+
            //dispatch an action to reduce the fetch result
            dispatch(contactActions.FETCH_CONTACT_DONE(result));
         }
@@ -47,10 +47,18 @@ var contactActions = {
 
     //This just needs to be an empty function.
     FETCH_CONTACT_PENDING: function() {},
- 
+
     FETCH_CONTACT_DONE: function (result) {
         return {
+            //type: 'NOT_NECESSARY'
             //Don't need to write type of a flux standard action
+            //The type is a mirror of the function name
+
+            //An action MAY
+            //   have a error property.
+            //   have a payload property.
+            //   have a meta property.
+
             payload: result
         }
     },
@@ -59,6 +67,9 @@ var contactActions = {
 
 // Then you must call actionCreatorMirror at the end of each xxxAction.js file
 var contactActions = actionCreatorMirror(contactActions);
+//or mirror with a namespace like this:
+//var contactActions = actionCreatorMirror(contactActions,'CONTACT_');
+//then export
 export default contactActions;
 ```
 
@@ -67,13 +78,13 @@ export default contactActions;
 import contactActions from '../actions/contactActions';
 export const contact = (state = {}, action) => {
     switch (action.type) {
-        case contactsActions.FETCH_CONTACT_PENDING.name: //Note the ‘.name’ 
+        case contactsActions.FETCH_CONTACT_PENDING.name: //Note the ‘.name’
         ...
 
-        case contactActions.FETCH_CONTACT_DONE.name:     //Note the ‘.name’ 
+        case contactActions.FETCH_CONTACT_DONE.name:     //Note the ‘.name’
             return action.payload;
         ...
-        
+
         default:
             return state;
     }
