@@ -1,4 +1,4 @@
-# A more effective way to organise Redux action creator codes.
+# A more effective way to organise Redux action creator codes
 
 ## Motivation:
 
