@@ -1,6 +1,6 @@
 {
   "name": "action-creator-mirror",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A more effective way to organise Redux action creator codes",
   "repository": {
     "type": "git",
