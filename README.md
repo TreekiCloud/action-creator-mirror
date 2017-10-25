@@ -68,7 +68,7 @@ var contactActions = {
 // Then you must call actionCreatorMirror at the end of each xxxAction.js file
 var contactActions = actionCreatorMirror(contactActions);
 //or mirror with a namespace like this:
-//var contactActions = actionCreatorMirror(contactActions,'CONTACT_');
+//var contactActions = actionCreatorMirror(contactActions,'contactActions');
 //then export
 export default contactActions;
 ```

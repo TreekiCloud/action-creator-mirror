@@ -86,10 +86,6 @@ export default function actionCreatorMirror(objs,className=null) {
                 throw new Error('actionCreatorMirror(...): The creator function must return a function, a flux-standard-action or a null');
             }
         }
-        var keyName = key;
-        if(className){
-            keyName = className+'_'+ key;
-        }
 
         Object.defineProperty(ret[key], "name", { value: keyName });
     });
