@@ -16,8 +16,13 @@ This is a handy helper function to allow react redux projects to work more effec
 
 
 ## Install 
-
+```
 npm install --save action-creator-mirror
+
+or
+
+```
+yarn add action-creator-mirror
 
 
 ## Example:
@@ -27,7 +32,7 @@ npm install --save action-creator-mirror
 import actionCreatorMirror from 'action-creator-mirror';
 
 var contactActions = {
-    FETCH_CONTACTS: function (endPoint, offset = 0) {
+    FETCH_CONTACT: function (endPoint, offset = 0) {
         return async (dispatch) => {
            //dispatch an action to trigger a preloader indicator
            dispatch(contactsActions.FETCH_CONTACT_PENDING());
@@ -62,10 +67,10 @@ export default contactActions;
 import contactActions from '../actions/contactActions';
 export const contact = (state = {}, action) => {
     switch (action.type) {
-        case contactsActions.FETCH_CONTACT_PENDING:
+        case contactsActions.FETCH_CONTACT_PENDING.name: //Note the ‘.name’ 
         ...
 
-        case contactActions.FETCH_CONTACT_DONE.name:  //Note the ‘.name’ 
+        case contactActions.FETCH_CONTACT_DONE.name:     //Note the ‘.name’ 
             return action.payload;
         ...
         
@@ -80,8 +85,8 @@ export const contact = (state = {}, action) => {
 import contactActions from '../actions/contactActions';
 ...
 export default connect(mapStateToProps, {
-    fetchContactPending: contactActions.FETCH_CONTACT_PENDING,
-    fetchContact:        contactActions.FETCH_CONTACT,
-    fetchContactDone:    contactActions.FETCH_CONTACT_DONE
+    ...
+    fetchContact:        contactActions.FETCH_CONTACT
+    ...
 })(ContactContainer);
 ```
