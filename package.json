@@ -1,0 +1,26 @@
+{
+  "name": "action-creator-mirror",
+  "version": "1.0.0",
+  "description": "A more effective way to organise Redux action creator codes",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TreekiCloud/action-creator-mirror.git"
+  },
+  "keywords": [
+    "react",
+    "reactjs",
+    "redux",
+    "action",
+    "creator",
+    "action creator",
+    "keymirror",
+    "mirror",
+    "Flux Standard Action",
+    "FSA"
+  ],
+  "author": "Bin Liu",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/TreekiCloud/action-creator-mirror/issues"
+  }
+}
