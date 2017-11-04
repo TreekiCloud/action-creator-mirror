@@ -1,4 +1,4 @@
-# A more effective way to organise Redux action creator codes
+# A more efficient way to organise Redux action creator codes
 
 ## Motivation:
 
@@ -6,15 +6,16 @@ This is a handy helper function to allow react redux projects to work more effec
 
 >- Who don’t want to write constant strings.  (never write const ADD_TODO = 'ADD_TODO')
 
->- Who want single source of truth and don’t want to look over actions  back and forth.
+>- Who want single source of truth and don’t want to look over actions  back and forth (No more actionTypes.js).
 
 >- Who want to group relative variables and concepts into one array.
 
 >- Who still want to keep the redux real.
 
->- And (most importantly) who want to use the Auto-Completing feature in IDEs.
+>- And (most importantly) who want to use the auto-completing and js-validator in IDEs.
 
-
+Currently, this helper only works with redux-thunk middleware.
+ 
 ## Install
 ```
 npm install --save action-creator-mirror
@@ -30,6 +31,7 @@ yarn add action-creator-mirror
 ### contactAction.js:
 ```
 import actionCreatorMirror from 'action-creator-mirror';
+//NO MORE type_consts.js
 
 var contactActions = {
     FETCH_CONTACT: function (endPoint, offset = 0) {
@@ -45,7 +47,7 @@ var contactActions = {
         }
     },
 
-    //This just needs to be an empty function.
+    //This creator just needs to be an empty function.
     FETCH_CONTACT_PENDING: function() {},
 
     FETCH_CONTACT_DONE: function (result) {
@@ -62,6 +64,7 @@ var contactActions = {
             payload: result
         }
     },
+
    ... Other contact related actions
 }
 
@@ -95,6 +98,12 @@ export const contact = (state = {}, action) => {
 ```
 import contactActions from '../actions/contactActions';
 ...
+
+//To dispatch some actions
+    this.props.dispatch(contactAction.FETCH_CONTACT(endPoint));
+...
+
+//or use reducx connector to map action creators in.
 export default connect(mapStateToProps, {
     ...
     fetchContact:        contactActions.FETCH_CONTACT
