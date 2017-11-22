@@ -1,5 +1,3 @@
-import _ from 'lodash'
-
 /*
  https://github.com/acdlite/flux-standard-action
  * Actions
@@ -59,35 +57,36 @@ var keyMirror = function(obj) {
 */
 
 
-
-export default function actionCreatorMirror(objs,className=null) {
-    var ret = {};
-    _.each(objs, function(actionCreator,key) {
-        var keyName = key;
-        if(className){
-            keyName = className+'_'+ key;
-        }
-
-        if(typeof actionCreator !== 'function'){
-            throw new Error('actionCreatorMirror(...): Property must be a function');
-        }
-        ret[key] = function(...param) {
-            var action = actionCreator(...param);
-            if(typeof action === 'function'){
-                return action;
-            }else if (action instanceof Object){
-                return Object.assign(
-                    action,
-                    {type: keyName}
-                );
-            }else if(!action){
-                return {type: keyName};
-            } else {
-                throw new Error('actionCreatorMirror(...): The creator function must return a function, a flux-standard-action or a null');
-            }
-        }
-
-        Object.defineProperty(ret[key], "name", { value: keyName });
-    });
-    return ret;
-};
+export default function actionCreatorMirror(objs, nameSpace = null) {
+  let ret = {};
+  Object.keys(objs).forEach((key) => {
+    let keyName = key;
+    const actionCreator = objs[key];
+    if (nameSpace) {
+      keyName = `${nameSpace}/${key}`;
+    }
+  
+    if (typeof actionCreator !== 'function') {
+      throw new Error('actionCreatorMirror(...): Property must be a function');
+    }
+    ret[key] = (...param) => {
+      const action = actionCreator(...param);
+      if (typeof action === 'function') {
+        return action;
+      } else if (action instanceof Object) {
+        return Object.assign(
+          action,
+          { type: keyName }
+        );
+      } else if (!action) {
+        return { type: keyName };
+      }
+    
+      throw new Error('actionCreatorMirror(...): The creator function must return a function, a flux-standard-action or a null');
+    };
+  
+    Object.defineProperty(ret[key], 'name', { value: keyName });
+  });
+  
+  return ret;
+}
